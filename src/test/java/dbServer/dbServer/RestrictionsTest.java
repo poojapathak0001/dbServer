@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 
-import org.junit.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
@@ -12,15 +12,24 @@ import org.junit.runner.RunWith;
 @RunWith(JUnitPlatform.class)
 class RestrictionsTest {
 	
+	Restrictions rs1 = null;
+	Restrictions rs2 = null;
+	
+	@BeforeEach
+    void beforeEach() {
+    	
+    	rs1 = new Restrictions();
+    	rs2 = new Restrictions();
+    	
+    	rs1.setQuery("Select city from ipl.csv where id > 300");
+ 		rs2.setQuery("Select city from ipl.csv");
+    	
+        System.out.println("Before each test method");
+    }
+    
+
 	@Test
 	public void filterTest() {
-		
-		Restrictions rs1 = new Restrictions("Select city from ipl.csv where id > 300");
-		Restrictions rs2 = new Restrictions("Select city from ipl.csv");
-		
-		//calling setter functions
-		rs1.setFilter();
-		rs2.setFilter();
 		
 		//assert statements
 		assertEquals("id > 300", rs1.getFilter());
@@ -29,13 +38,6 @@ class RestrictionsTest {
 	
 	@Test
 	public void conditionsTest() {
-		
-		Restrictions rs1 = new Restrictions("Select city from ipl.csv where id > 300 and city like 'Delhi'");
-		Restrictions rs2 = new Restrictions("Select city from ipl.csv");
-		
-		//calling setter functions
-		rs1.setConditions();
-		rs2.setConditions();
 		
 		//assertStatements
 		assertEquals("id > 300", rs1.getConditions().get(0));
@@ -46,13 +48,6 @@ class RestrictionsTest {
 	@Test
 	public void operatorsTest() {
 		
-		Restrictions rs1 = new Restrictions("Select city from ipl.csv where id > 300 and city like 'Delhi'");
-		Restrictions rs2 = new Restrictions("Select city from ipl.csv");
-		
-		//calling setter functions
-		rs1.setOperators();
-		rs2.setOperators();
-		
 		//assertStatements
 		assertEquals("and", rs1.getOperators().get(0));
 		assertEquals(new ArrayList<String>(), rs2.getOperators());
@@ -60,13 +55,6 @@ class RestrictionsTest {
 	
 	@Test
 	public void orderByFieldTest() {
-		
-		Restrictions rs1 = new Restrictions("Select city from ipl.csv where id > 300 and city like 'Delhi' order by city");
-		Restrictions rs2 = new Restrictions("Select city from ipl.csv");
-		
-		//calling setter functions
-		rs1.setOrderByField();
-		rs2.setOrderByField();
 		
 		//assertStatements
 		assertEquals("city", rs1.getOrderByField());
@@ -76,13 +64,6 @@ class RestrictionsTest {
 	@Test
 	public void groupByFieldTest() {
 		
-		Restrictions rs1 = new Restrictions("Select count(*) from ipl.csv where id > 300 and city like 'Delhi' group by city order by season");
-		Restrictions rs2 = new Restrictions("Select city from ipl.csv");
-		
-		//calling setter functions
-		rs1.setGroupByField();
-		rs2.setGroupByField();
-				
 		//assertStatements
 		assertEquals("city", rs1.getGroupByField());
 		assertEquals(null, rs2.getGroupByField());		
