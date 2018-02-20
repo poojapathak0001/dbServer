@@ -46,7 +46,7 @@ public class ReadFile {
 	
 	///method to read file
 	public void readFile() {
-		String csvFileToRead = getFileName();  
+		String csvFileToRead = "csvFiles/" + getFileName();  
 		  BufferedReader br = null;  
 		  String line = "";   
 		  try {  
