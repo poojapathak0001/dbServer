@@ -81,7 +81,7 @@ public class Extract {
 		 qp.extractWhereData();
 		 qp.extractSelectData();
 		 
-		 sc.close();
+		
 	}
 
 }
