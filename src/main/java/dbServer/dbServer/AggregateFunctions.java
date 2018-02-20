@@ -9,28 +9,38 @@ public class AggregateFunctions {
 	private String query;
 	private ArrayList<String> aggregateFunc = new ArrayList<String>();
 	
-	//constructor to initialize query
-	public AggregateFunctions(String query) {
-		super();
+	//getter and setter for query
+	public String getQuery() {
+		return query;
+	}
+
+	public void setQuery(String query) {
 		this.query = query;
 	}
-	
-	//getter and setter
+
+	//getter and setter for aggregate functions
 	public ArrayList<String> getAggregateFunc() {
 		return aggregateFunc;
 	}
-
-	public void setAggregateFunc() {
+	
+	public void setAggregateFunc(ArrayList<String> aggregateFunc) {
+		this.aggregateFunc = aggregateFunc;
+	}
+	
+	//method to find aggregate function in the query
+	public ArrayList<String> extractAggregateFunc() {
 		
 		if (query != null) {
 			Pattern pattern = Pattern.compile("(avg|sum|min|max|count)(\\([a-zA-Z0-9_*]+)(\\))");
 			Matcher matcher = pattern.matcher(query);
-			
+			ArrayList<String> agg = new ArrayList<String>();
 			System.out.println("Aggregate Functions:");
 			while (matcher.find()) {
-				aggregateFunc.add((matcher.group()));
+				agg.add((matcher.group()));
 			}
-			System.out.println(aggregateFunc);
+			return agg;
 		}
+		else
+			return null;
 	}
 }

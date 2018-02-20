@@ -6,50 +6,54 @@ import java.util.regex.Pattern;
 
 public class QueryParser {
 	private String query = null;
-	private String[] fields = null;
 	private ArrayList<String> selectData = new ArrayList<String>();
 	private ArrayList<String> whereData = new ArrayList<String>();
 
-	public QueryParser(String query) {
-		super();
-		this.query = query;
-	}
-		
-	public String[] getField() {
-		return fields;
+	//getter and setter for query	
+	public String getQuery() {
+		return query;
 	}
 
-	public void setField() {
-		if(query != null)
-		{	
-			QuerySelector qs = new QuerySelector(query);
-			qs.setFields();
-			this.fields = qs.getFields();
-		}
-		else 
-			System.out.println("errr");
+	public void setQuery(String query) {
+		this.query = query;
 	}
-	
+
+	//getter and setter for data based on select clause
 	public ArrayList<String> getSelectData() {
 		return selectData;
 	}
 	
+	public void setSelectData(ArrayList<String> selectData) {
+		this.selectData = selectData;
+	}
+
+	//getter and setter for data based on where clause
 	public ArrayList<String> getWhereData() {
 		return whereData;
 	}
 
-	public void setWhereData() {
-		Restrictions rs = new Restrictions(query);
-		rs.setConditions();
+	public void setWhereData(ArrayList<String> whereData) {
+		this.whereData = whereData;
+	}
+	
+	//method to extract data based on where clause
+	public void extractWhereData() {
+		Restrictions rs = new Restrictions();
+		rs.setQuery(query);
+		rs.setConditions(rs.extractConditions());
+		
 		ArrayList<String> whereConditions = rs.getConditions();
 		for (String i : whereConditions)
 			System.out.println(i);
 		Pattern p = Pattern.compile("(\\w+)([ ]?)(<>|>=|<=|!=|>|<|=|like|in|not like|not in|)([ ][']?)(\\w+)(['])");
 
-		QuerySelector qs = new QuerySelector(query);
-		qs.setFileName();
+		QuerySelector qs = new QuerySelector();
+		qs.setQuery(query);
+		qs.setFileName(qs.extractFileName());
+		
 		ArrayList<String> fileName = qs.getFileName();
-		ReadFile rf = new ReadFile(fileName.get(0));
+		ReadFile rf = new ReadFile();
+		rf.setFileName(fileName.get(0));
 		rf.readFile();
 		ArrayList<String[]> data = rf.getData();
 		String[] key = rf.getHeader();
@@ -99,15 +103,21 @@ public class QueryParser {
 		}
 		
 	}
-	public void setSelectData() {
-		QuerySelector qs = new QuerySelector(query);
-		qs.setFileName();
+	
+	//method to obtain data based on select clause
+	public void extractSelectData() {
+		QuerySelector qs = new QuerySelector();
+		qs.setQuery(query);
+		qs.setFileName(qs.extractFileName());
+		qs.setFields(qs.extractFields());
+		String[] fields = qs.getFields();
 		ArrayList<String> fileName = qs.getFileName();
-		ReadFile rf = new ReadFile(fileName.get(0));
+		
+		ReadFile rf = new ReadFile();
+		rf.setFileName(fileName.get(0));
 		rf.readFile();
 		ArrayList<String[]> data = rf.getData();
 		String[] key = rf.getHeader();
-		setField();
 		
 		int[] index= new int[key.length];
 		int ic = 0;
