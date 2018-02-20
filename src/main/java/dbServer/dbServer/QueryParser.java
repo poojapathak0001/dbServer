@@ -80,8 +80,8 @@ public class QueryParser {
 		
 		//action according to the operator
 		System.out.println("Switch");
-		switch(op) {
-		case ">" : double dVal = Double.parseDouble(val);
+		switch(op.charAt(0)) {
+		case '>' : double dVal = Double.parseDouble(val);
 					for(String[] i : data) {
 						if((Integer.parseInt(i[index[0]]))>dVal)
 						{
@@ -89,7 +89,7 @@ public class QueryParser {
 						}
 					}
 					break;
-		case "=" : 
+		case '=' : 
 			System.out.println(val);
 					for(String[] i : data) {
 						System.out.println(i);
