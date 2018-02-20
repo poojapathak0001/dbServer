@@ -1,16 +1,14 @@
 package dbServer.dbServer;
 
-import java.util.*;
 
 public class Extract {
 
 	public static void main(String[] args) {
 		
-		 Scanner sc = new Scanner(System.in);
 		 String query = null;
 		 
 		 System.out.println("Enter the query:");
-		 //query = sc.nextLine();
+		 
 		 query = "select city from ipl.csv where id = 200";
 		 
 		 //calling functions QuerySelector
