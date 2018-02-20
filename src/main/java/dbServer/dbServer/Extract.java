@@ -6,9 +6,7 @@ public class Extract {
 	public static void main(String[] args) {
 		
 		 String query = null;
-		 
 		 System.out.println("Enter the query:");
-		 
 		 query = "select city from ipl.csv where id = 200";
 		 //calling functions QuerySelector
 		 QuerySelector qs = new QuerySelector();
