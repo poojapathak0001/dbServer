@@ -11,7 +11,7 @@ public class Extract {
 		 
 		 System.out.println("Enter the query:");
 		 //query = sc.nextLine();
-		 query = args[0];
+		 query = "select city from ipl.csv where id = 200";
 		 
 		 //calling functions QuerySelector
 		 QuerySelector qs = new QuerySelector();
