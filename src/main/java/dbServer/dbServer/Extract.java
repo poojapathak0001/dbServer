@@ -10,7 +10,8 @@ public class Extract {
 		 String query = null;
 		 
 		 System.out.println("Enter the query:");
-		 query = sc.nextLine();
+		 //query = sc.nextLine();
+		 query = args[0];
 		 
 		 //calling functions QuerySelector
 		 QuerySelector qs = new QuerySelector();
