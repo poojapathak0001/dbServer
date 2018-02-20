@@ -10,14 +10,14 @@ public class Extract {
 		 System.out.println("Enter the query:");
 		 
 		 query = "select city from ipl.csv where id = 200";
-		 
+
 		 //calling functions QuerySelector
 		 QuerySelector qs = new QuerySelector();
 		 qs.setQuery(query);
 		 qs.setTokens(qs.extractTokens());
 		 System.out.println("\nTokens: ");
 		 for (String i : qs.getTokens()) {
-			 System.out.print(i+" ");
+			 System.out.print(i+", ");
 		 }
 		 
 		 qs.setFileName(qs.extractFileName());
