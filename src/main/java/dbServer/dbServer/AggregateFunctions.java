@@ -34,7 +34,6 @@ public class AggregateFunctions {
 			Pattern pattern = Pattern.compile("(avg|sum|min|max|count)(\\([a-zA-Z0-9_*]+)(\\))");
 			Matcher matcher = pattern.matcher(query);
 			ArrayList<String> agg = new ArrayList<String>();
-			System.out.println("Aggregate Functions:");
 			while (matcher.find()) {
 				agg.add((matcher.group()));
 			}

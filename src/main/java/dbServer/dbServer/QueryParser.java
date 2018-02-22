@@ -84,18 +84,27 @@ public class QueryParser {
 						String i[] = ic.split(",");
 						if((Double.parseDouble(i[index]))>dVal)
 						{
-							whereData.add(i[index]);
+							whereData.add(ic);
 						}
 					}
 					break;
+		case '<' : double dVal1 = Double.parseDouble(val);
+					for(String ic : data) {
+						String i[] = ic.split(",");
+						if((Double.parseDouble(i[index]))<dVal1)
+						{
+							whereData.add(ic);
+						}
+					}
+					break;
+		
 		case '=' : System.out.println(val);
 					for(String ic : data) {
 						String i[] = ic.split(",");
-						System.out.println("data"+i);
-						if(val.equals(i))
+						if(val.equals(i[index]))
 						{
-							whereData.add(i[index]);
-							System.out.println(whereData);
+							whereData.add(ic);
+							System.out.println("Where"+whereData);
 						}
 					}
 					break;
@@ -115,12 +124,11 @@ public class QueryParser {
 		ReadFile rf = new ReadFile();
 		rf.setFileName(fileName);
 		rf.readFile();
-		ArrayList<String> data = rf.getData();
+		ArrayList<String> data = getWhereData();
 		String[] key = rf.getHeader();
 		
 		int[] index= new int[key.length];
 		int ic = 0;
-		System.out.println(fields);
 		if(fields[0].equals("*")) {
 			fields = key;
 		}
@@ -139,6 +147,7 @@ public class QueryParser {
 				selectData.add(j[index[i]]);
 System.out.print(j[index[i]]+", ");
 			}	
+			System.out.println();
 		
 	}
 	

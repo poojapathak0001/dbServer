@@ -46,7 +46,7 @@ public class ReadFile {
 	
 	///method to read file
 	public void readFile() {
-		String csvFileToRead = "ipl.csv";  
+		String csvFileToRead = "csvFiles/ipl.csv";  
 		  BufferedReader br = null;  
 		  String line = "";   
 		  try {  
@@ -70,7 +70,6 @@ public class ReadFile {
 			    }  
 			  }  
 		  }  
-System.out.println(data);
 	}
 	
 	//method to identify data type
