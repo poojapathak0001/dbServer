@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class ReadFile {
 	private String fileName = null;
 	private String[] header = null;
-	private ArrayList<String[]> data = null;
+	private ArrayList<String> data = null;
 	private LinkedHashMap<String, String> dataTypes = new LinkedHashMap<String,String>();
 	
 	//getter and setter for filename	
@@ -29,10 +29,10 @@ public class ReadFile {
 	}
 	
 	//getter and setter for data
-	public ArrayList<String[]> getData() {
+	public ArrayList<String> getData() {
 		return data;
 	}
-	public void setData(ArrayList<String[]> data) {
+	public void setData(ArrayList<String> data) {
 		this.data = data;
 	}
 	
@@ -46,15 +46,15 @@ public class ReadFile {
 	
 	///method to read file
 	public void readFile() {
-		String csvFileToRead = "/csvFiles/ipl.csv";  
+		String csvFileToRead = "ipl.csv";  
 		  BufferedReader br = null;  
 		  String line = "";   
 		  try {  
 			   br = new BufferedReader(new FileReader(csvFileToRead)); 
 			   setHeader(br.readLine().split(","));
-			   ArrayList<String[]> data = new ArrayList<String[]>();
+			   ArrayList<String> data = new ArrayList<String>();
 			   while ((line = br.readLine()) != null) {  
-			    data.add(line.split(","));
+			    data.add(line);
 			   }  
 			   setData(data);
 		   } catch (FileNotFoundException e) {  
@@ -70,12 +70,14 @@ public class ReadFile {
 			    }  
 			  }  
 		  }  
+System.out.println(data);
 	}
 	
 	//method to identify data type
 	public void extractDataType() {
 		LinkedHashMap<String, String> datatype = new LinkedHashMap<String, String>();
-		for (String[] i : data) {
+		for (String ic : data) {
+			String i[] = ic.split(",");
 			 for (int j= 0; j<i.length ; j++) {
 				 try {
 					 Integer.parseInt(i[j]);

@@ -1,6 +1,4 @@
 package dbServer.dbServer;
-
-
 public class Extract {
 
 	public static void main(String[] args) {
@@ -19,9 +17,7 @@ public class Extract {
 		 
 		 qs.setFileName(qs.extractFileName());
 		 System.out.println("\nFile name: ");
-		 for (String i : qs.getFileName()) {
-			 System.out.print(i + " ");
-		 }
+		 System.out.print(qs.getFileName());
 		 
 		 qs.setBase(qs.extractBase());
 		 System.out.println("\nBase: "+ qs.getBase());
@@ -67,7 +63,7 @@ public class Extract {
 		 
 		 //calling method of ReadFile
 		 ReadFile rf = new ReadFile();
-		 rf.setFileName(qs.getFileName().get(0));
+	     rf.setFileName(qs.getFileName());
 		 rf.readFile();
 		 rf.extractDataType();
 		 

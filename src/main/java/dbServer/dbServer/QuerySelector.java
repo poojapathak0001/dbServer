@@ -1,14 +1,13 @@
 package dbServer.dbServer;
 
 import java.util.regex.*;
-import java.util.*;
 
 
 public class QuerySelector {
 	
 	private String query = null;
 	private String[] tokens = null;
-	private ArrayList<String> fileName = new ArrayList<String>();
+	private String fileName = null;
 	private String base = null;
 	private String[] fields = null;
 	
@@ -32,11 +31,11 @@ public class QuerySelector {
 	}
 
 	//getter and setter for filename
-	public ArrayList<String> getFileName() {
+	public String getFileName() {
 		return fileName;
 	}
 
-	public void setFileName(ArrayList<String> fileName) {
+	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
 
@@ -68,18 +67,17 @@ public class QuerySelector {
 	}
 	
 	//methods to extract file name from query
-	public ArrayList<String> extractFileName() {
+	public String extractFileName() {
 		
 		if (query != null) {
 			Pattern pattern = Pattern.compile("[a-zA-Z0-9]+\\.(csv)|(txt)");
 			Matcher matcher = pattern.matcher(query);
 			
-			ArrayList<String> fn = new ArrayList<String>();
-			while (matcher.find())
+			if (matcher.find())
 			{
-			    fn.add(matcher.group());
+			return matcher.group();
 			}
-			return fn;
+			return null;
 		}
 		else
 			return null;
