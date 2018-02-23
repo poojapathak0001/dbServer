@@ -45,6 +45,7 @@ public class QueryParser {
 		ArrayList<String> whereConditions = rs.getConditions();
 		for (String i : whereConditions)
 			System.out.println("Conditions:"+i);
+		System.out.println();
 
 		QuerySelector qs = new QuerySelector();
 		qs.setQuery(query);
@@ -58,31 +59,28 @@ public class QueryParser {
 		String[] key = rf.getHeader();
 				
 		//getting field to compare
-		int index = 0;
+		int index = -1;
 		String f = null, op = null, val = null;
 		for (String i : whereConditions) {
-			System.out.println(i);
 			Pattern p = Pattern.compile("(\\w+)([ ]?)(<>|>=|<=|!=|>|<|=|like|in|not like|not in|between[ ]?\\d[ ]?and\\d)([ ]?['(]?)(\\w+)([')]?)");			
 			Matcher m = p.matcher(i);
 			if(m.find()) {
 				 f = m.group(1);
 				 op = m.group(3);
-				System.out.println(op);
-				 val = m.group(5);
-				System.out.println(f+op+val);	
+				 val = m.group(5);	
 			}
-		}
 		for (int j=0; j<key.length; j++) {
 				if(f.equals(key[j]))
 					{index = j;}
-				}					
+				}	
+		
 		//action according to the operator
-
+		
 		switch(op.charAt(0)) {
 		case '>' : double dVal = Double.parseDouble(val);
 					for(String ic : data) {
-						String i[] = ic.split(",");
-						if((Double.parseDouble(i[index]))>dVal)
+						String i1[] = ic.split(",");
+						if((Double.parseDouble(i1[index]))>dVal)
 						{
 							whereData.add(ic);
 						}
@@ -90,24 +88,24 @@ public class QueryParser {
 					break;
 		case '<' : double dVal1 = Double.parseDouble(val);
 					for(String ic : data) {
-						String i[] = ic.split(",");
-						if((Double.parseDouble(i[index]))<dVal1)
+						String i1[] = ic.split(",");
+						if((Double.parseDouble(i1[index]))<dVal1)
 						{
 							whereData.add(ic);
 						}
 					}
 					break;
 		
-		case '=' : System.out.println(val);
+		case '=' : 
 					for(String ic : data) {
-						String i[] = ic.split(",");
-						if(val.equals(i[index]))
+						String i1[] = ic.split(",");
+						if(val.equalsIgnoreCase(i1[index]))
 						{
 							whereData.add(ic);
-							System.out.println("Where"+whereData);
 						}
 					}
 					break;
+		}
 		}
 		
 	}
@@ -125,30 +123,39 @@ public class QueryParser {
 		rf.setFileName(fileName);
 		rf.readFile();
 		ArrayList<String> data = getWhereData();
+		data = (data.size() != 0)? data : rf.getData();
 		String[] key = rf.getHeader();
 		
 		int[] index= new int[key.length];
 		int ic = 0;
 		if(fields[0].equals("*")) {
 			fields = key;
+			for (String i : fields) {
+				System.out.print(i + " ");
+				for (int j=0; j<key.length; j++) {
+						{index[ic++] = j;}
+					}			
+				}
 		}
 		else {
 		for (String i : fields) {
-			System.out.println(i);
+			System.out.print(i + " ");
 			for (int j=0; j<key.length; j++) {
 				if(i.equals(key[j]))
 					{index[ic++] = j;}
 				}			
 			}
 		}
-		for (int i=0; i<ic; i++) {
-			for (String jc : data) {
-				String[] j = jc.split(",");
+		System.out.println("");
+		for (String jc : data) {
+			String[] j = jc.split(",");
+			for (int i=0; i<ic; i++) {
+				
 				selectData.add(j[index[i]]);
-System.out.print(j[index[i]]+", ");
+				System.out.print(j[index[i]]+" ");
 			}	
 			System.out.println();
 		
 	}
-	
-}}
+  }
+}

@@ -5,10 +5,11 @@ public class Extract {
 		
 		 String query = null;
 		 System.out.println("Enter the query:");
-		 query = "select city from ipl.csv where id = 200";
+		 query = "select city,id from ipl.csv where id < 10";
 		 //calling functions QuerySelector
 		 QuerySelector qs = new QuerySelector();
 		 qs.setQuery(query);
+		 
 		 qs.setTokens(qs.extractTokens());
 		 System.out.println("\nTokens: ");
 		 for (String i : qs.getTokens()) {
@@ -20,7 +21,7 @@ public class Extract {
 		 System.out.print(qs.getFileName());
 		 
 		 qs.setBase(qs.extractBase());
-		 System.out.println("\nBase: "+ qs.getBase());
+		 System.out.println("\nBase:\n "+ qs.getBase());
 		 
 		 qs.setFields(qs.extractFields());
 		 System.out.println("\nFields: ");
@@ -32,7 +33,7 @@ public class Extract {
 		 Restrictions rs = new Restrictions();
 		 rs.setQuery(query);
 		 rs.setFilter(rs.extractFilter());
-		 System.out.println("\nFilter: " + rs.getFilter());
+		 System.out.println("\nFilter:\n " + rs.getFilter());
 		 
 		 rs.setConditions(rs.extractConditions());
 		 System.out.println("\nConditions: ");
@@ -47,10 +48,10 @@ public class Extract {
 		 }
 		 
 		 rs.setOrderByField(rs.extractOrderByField());
-		 System.out.println("\nOrder by field: " + rs.getOrderByField());
+		 System.out.println("\nOrder by field:\n " + rs.getOrderByField());
 		 
 		 rs.setGroupByField(rs.extractGroupByField());
-		 System.out.println("\nGroup by field: " + rs.getGroupByField());
+		 System.out.println("\nGroup by field:\n " + rs.getGroupByField());
 		 
 		 //calling function of AggregateFunctions
 		 AggregateFunctions af =new AggregateFunctions();
@@ -60,6 +61,7 @@ public class Extract {
 		 for (String i : af.getAggregateFunc()) {
 			 System.out.println(i);
 		 }
+		 System.out.println();
 		 
 		 //calling method of ReadFile
 		 ReadFile rf = new ReadFile();

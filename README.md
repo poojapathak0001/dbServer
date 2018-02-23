@@ -1,10 +1,17 @@
-# dbServer
-A Java based database  engine to read csv file.
+﻿# dbServer
+
+Description:
+
+A Java based database engine to read csv file and execute basic SQL commands.
 
 Technology Used:
+
 Java
-JUnit
+Junit
 Maven
+JSON
 
 Direction:
+
 Start with the Extract.java file in src/main/java
+
