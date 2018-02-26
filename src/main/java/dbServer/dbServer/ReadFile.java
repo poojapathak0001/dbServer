@@ -1,4 +1,4 @@
- package dbServer.dbServer;
+package dbServer.dbServer;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -7,18 +7,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ReadFile {
-	private String fileName = null;
 	private String[] header = null;
 	private ArrayList<String> data = null;
 	private LinkedHashMap<String, String> dataTypes = new LinkedHashMap<String,String>();
-	
-	//getter and setter for filename	
-	public String getFileName() {
-		return fileName;
-	}
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
 	
 	//getter and setter for header
 	public String[] getHeader() {
@@ -45,14 +36,18 @@ public class ReadFile {
 	}
 	
 	///method to read file
-	public void readFile() {
-		String csvFileToRead = "ipl.csv";  
+	public void readFile(String file) {
 		  BufferedReader br = null;  
 		  String line = "";   
 		  try {  
+			  if(file == null)
+				  throw new FileNotFoundException();
+
+			   String csvFileToRead = file;  
 			   br = new BufferedReader(new FileReader(csvFileToRead)); 
 			   setHeader(br.readLine().split(","));
 			   ArrayList<String> data = new ArrayList<String>();
+			   //storing data
 			   while ((line = br.readLine()) != null) {  
 			    data.add(line);
 			   }  
@@ -61,7 +56,9 @@ public class ReadFile {
 		    e.printStackTrace();  
 		   } catch (IOException e) {  
 		    e.printStackTrace();  
-		   } finally {  
+		   } catch (Exception e) {
+			e.printStackTrace();
+		   } finally {
 			   if (br != null) {  
 			    try {  
 			     br.close();  
@@ -81,7 +78,7 @@ public class ReadFile {
 				 try {
 					 Integer.parseInt(i[j]);
 					 datatype.put(header[j],"int");
-				 } catch (Exception e) {
+				 } catch (NumberFormatException e) {
 					 try {
 						 Pattern p = Pattern.compile("[0-9]{4}-[0-9]{2}-[0-9]{2}");
 						 Matcher m = p.matcher(i[j]);
@@ -89,8 +86,10 @@ public class ReadFile {
 							 datatype.put(header[j],"date");
 						 else
 							 datatype.put(header[j],"string");;
-					 }catch (Exception ex) {
-					   
+					 }catch (NullPointerException ex) {
+					   ex.printStackTrace();
+					}catch (Exception ex) {
+						ex.printStackTrace();
 					}
 				 }
 			 }

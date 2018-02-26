@@ -1,25 +1,16 @@
 package dbServer.dbServer;
+//package dbServer.dbServer;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Restrictions {
-	private String query = null;
 	private String filter = null;
 	private ArrayList<String> conditions = new ArrayList<String>();
 	private ArrayList<String> operators = new ArrayList<String>();
 	private String orderByField = null;
 	private String groupByField = null;
-	
-	//getter and setter for query
-	public String getQuery() {
-		return query;
-	}
-
-	public void setQuery(String query) {
-		this.query = query;
-	}
 
 	//getter and setter for filter
 	public String getFilter() {
@@ -67,7 +58,7 @@ public class Restrictions {
 	}
 
 	//method to extract filter part from query
-	public String extractFilter() {
+	public String extractFilter(String query) {
 		if(query != null) {
 			int startPos = query.toLowerCase().indexOf("where");
 			if (startPos > 0) {
@@ -79,7 +70,7 @@ public class Restrictions {
 	}
 
 	//method to extract conditions from query
-	public ArrayList<String> extractConditions() {
+	public ArrayList<String> extractConditions(String query) {
 		if(query != null) {
 			Pattern pattern = Pattern.compile("(\\w+[ ]?)(<>|>=|<=|!=|>|<|=|like|in|not like|not in|between[ ]?\\d[ ]?and\\d)([ ]?['(]?\\w+[')]?)");
 			Matcher matcher = pattern.matcher(query);
@@ -95,7 +86,7 @@ public class Restrictions {
 	}
 	
 	///method to extract operators from query
-	public ArrayList<String> extractOperators() {
+	public ArrayList<String> extractOperators(String query) {
 		if(query != null) {
 			Pattern pattern = Pattern.compile("(and)( )|(or)( )|(not)( )");
 			Matcher matcher = pattern.matcher(query);
@@ -110,7 +101,7 @@ public class Restrictions {
 	}
 	
 	//method to extract order by fields
-	public String extractOrderByField() {
+	public String extractOrderByField(String query) {
 		if(query != null) {
 			int startPos = query.toLowerCase().indexOf("order by");
 			int endPos = query.toLowerCase().indexOf("asc");
@@ -130,7 +121,7 @@ public class Restrictions {
 	}
 	
 	//method to extract group by fields
-	public String extractGroupByField() {
+	public String extractGroupByField(String query) {
 		if(query != null) {
 			int startPos = query.toLowerCase().indexOf("group by");
 			int endPos = query.toLowerCase().indexOf("having") -1 ;

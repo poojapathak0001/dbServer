@@ -1,29 +1,33 @@
 package dbServer.dbServer;
+
+import java.util.Scanner;
+
 public class Extract {
 
 	public static void main(String[] args) {
 		
 		 String query = null;
 		 System.out.println("Enter the query:");
-		 query = "select city,id from ipl.csv where id < 10";
+		 query = new Scanner(System.in).nextLine();
+		 //query = "select city,id from ipl.csv where id < 10";
+		 
 		 //calling functions QuerySelector
 		 QuerySelector qs = new QuerySelector();
-		 qs.setQuery(query);
-		 
-		 qs.setTokens(qs.extractTokens());
+		 //Extracting tokens
+		 qs.setTokens(qs.extractTokens(query));
 		 System.out.println("\nTokens: ");
 		 for (String i : qs.getTokens()) {
 			 System.out.print(i+", ");
 		 }
-		 
-		 qs.setFileName(qs.extractFileName());
+		 //Extracting filename 
+		 qs.setFileName(qs.extractFileName(query));
 		 System.out.println("\nFile name: ");
 		 System.out.print(qs.getFileName());
-		 
-		 qs.setBase(qs.extractBase());
+		 //Extracting Base
+		 qs.setBase(qs.extractBase(query));
 		 System.out.println("\nBase:\n "+ qs.getBase());
-		 
-		 qs.setFields(qs.extractFields());
+		 //Extracting fields
+		 qs.setFields(qs.extractFields(query));
 		 System.out.println("\nFields: ");
 		 for (String i : qs.getFields()) {
 			 System.out.print(i + " ");
@@ -31,32 +35,32 @@ public class Extract {
 		 
 		 //calling functions of Restriction 
 		 Restrictions rs = new Restrictions();
-		 rs.setQuery(query);
-		 rs.setFilter(rs.extractFilter());
+		 //Extracting filter
+		 rs.setFilter(rs.extractFilter(query));
 		 System.out.println("\nFilter:\n " + rs.getFilter());
-		 
-		 rs.setConditions(rs.extractConditions());
+		 //Extracting conditions
+		 rs.setConditions(rs.extractConditions(query));
 		 System.out.println("\nConditions: ");
 		 for (String i : rs.getConditions()) {
 			 System.out.println(i);
 		 }
-		 
-		 rs.setOperators(rs.extractOperators());
+		 //Extracting logical operators
+		 rs.setOperators(rs.extractOperators(query));
 		 System.out.println("\nOperators: ");
 		 for (String i : rs.getOperators()) {
 			 System.out.println(i);
 		 }
-		 
-		 rs.setOrderByField(rs.extractOrderByField());
+		 //Extracting order by fields
+		 rs.setOrderByField(rs.extractOrderByField(query));
 		 System.out.println("\nOrder by field:\n " + rs.getOrderByField());
-		 
-		 rs.setGroupByField(rs.extractGroupByField());
+		 //Extracting group by fields
+		 rs.setGroupByField(rs.extractGroupByField(query));
 		 System.out.println("\nGroup by field:\n " + rs.getGroupByField());
 		 
 		 //calling function of AggregateFunctions
 		 AggregateFunctions af =new AggregateFunctions();
-		 af.setQuery(query);
-		 af.setAggregateFunc(af.extractAggregateFunc());
+		 //Extracting aggregate fnctions
+		 af.setAggregateFunc(af.extractAggregateFunc(query));
 		 System.out.println("\nAggregate Function: ");
 		 for (String i : af.getAggregateFunc()) {
 			 System.out.println(i);
@@ -65,18 +69,16 @@ public class Extract {
 		 
 		 //calling method of ReadFile
 		 ReadFile rf = new ReadFile();
-	     rf.setFileName(qs.getFileName());
-		 rf.readFile();
+		 rf.readFile(query);
 		 rf.extractDataType();
 		 
 		 //calling methods of QueryParser
 		 QueryParser qp = new QueryParser();
-		 qp.setQuery(query);
+		 //calling method to extract data on basis of where clause
+		 qp.extractWhereData(query);
+		 //calling method to extract data
+		 qp.extractSelectData(query);
 		 
-		 qp.extractWhereData();
-		 qp.extractSelectData();
-		 
-		
 	}
 
 }

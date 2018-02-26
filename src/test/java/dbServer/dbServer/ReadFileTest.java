@@ -1,4 +1,4 @@
-package dbServer.dbServer;
+//package dbServer.dbServer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,17 +18,14 @@ class ReadFileTest {
     void beforeEach() {
     	
     	rf = new ReadFile();
-    	rf.setFileName("ipl.csv");
     	
         System.out.println("Before each test method");
     }
 
 	@Test(expected = FileNotFoundException.class)
 	public void readFileTest() {
-		
-		String[] header = {};
-		
-		assertEquals(header, rf.getHeader());
+			
+		rf.readFile(null);
 	}
 
 }

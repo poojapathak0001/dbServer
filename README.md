@@ -14,4 +14,5 @@ JSON
 Direction:
 
 Start with the Extract.java file in src/main/java
+Give a SQL query to be exceuted
 

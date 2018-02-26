@@ -1,25 +1,14 @@
 package dbServer.dbServer;
-
 import java.util.regex.*;
 
 
 public class QuerySelector {
 	
-	private String query = null;
 	private String[] tokens = null;
 	private String fileName = null;
 	private String base = null;
 	private String[] fields = null;
 	
-	
-	//getter and setter for Query
-	public String getQuery() {
-		return query;
-	}
-
-	public void setQuery(String query) {
-		this.query = query;
-	}
 	
 	//getter and setter for tokens
 	public String[] getTokens() {
@@ -58,7 +47,7 @@ public class QuerySelector {
 	}
 
 	//method to extract tokens
-	public String[] extractTokens() {
+	public String[] extractTokens(String query) {
 		if (!query.equals("")) {
 			return query.split("[ ,]");
 		} else {
@@ -67,7 +56,7 @@ public class QuerySelector {
 	}
 	
 	//methods to extract file name from query
-	public String extractFileName() {
+	public String extractFileName(String query) {
 		
 		if (query != null) {
 			Pattern pattern = Pattern.compile("[a-zA-Z0-9]+\\.(csv)|(txt)");
@@ -84,7 +73,7 @@ public class QuerySelector {
 	}
 	
 	//method to extract base part from query
-	public String extractBase() {
+	public String extractBase(String query) {
 		
 		if(query != null) {
 			int endPos = query.indexOf("where");
@@ -101,7 +90,7 @@ public class QuerySelector {
 	}
 	
 	//methods to extract field values
-	public String[] extractFields() {
+	public String[] extractFields(String query) {
 		if(query != null) {
 			int startPos = query.toLowerCase().indexOf("select");
 			int endPos = query.toLowerCase().indexOf("from");

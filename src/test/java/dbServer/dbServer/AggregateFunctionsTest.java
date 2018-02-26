@@ -20,19 +20,16 @@ class AggregateFunctionsTest {
     	
     	af1 = new AggregateFunctions();
     	af2 = new AggregateFunctions();
-    	
-    	af1.setQuery("Select count(city) from ipl.csv where id > 300");
-		af2.setQuery("Select city from ipl.csv");
-    	
+ 
         System.out.println("Before each test method");
     }
 
 	@Test
 	public void aggregationFuncTest() {
 				
-		//assert statements
-		assertEquals("count(city)", af1.getAggregateFunc().get(0));
-		assertEquals(new ArrayList<String>(), af2.getAggregateFunc());
+		//assert statements to test aggregate function values
+		assertEquals("count(city)", af1.extractAggregateFunc("Select count(city) from ipl.csv where id > 300").get(0));
+		assertEquals(new ArrayList<String>(), af2.extractAggregateFunc("Select city from ipl.csv"));
 	}
 
 }

@@ -21,9 +21,6 @@ class RestrictionsTest {
     	rs1 = new Restrictions();
     	rs2 = new Restrictions();
     	
-    	rs1.setQuery("Select city from ipl.csv where id > 300");
- 		rs2.setQuery("Select city from ipl.csv");
-    	
         System.out.println("Before each test method");
     }
     
@@ -31,41 +28,41 @@ class RestrictionsTest {
 	@Test
 	public void filterTest() {
 		
-		//assert statements
-		assertEquals("id > 300", rs1.getFilter());
-		assertEquals(null, rs2.getFilter());
+		//assert statements to test filter value
+		assertEquals("id > 300", rs1.extractFilter("Select city from ipl.csv where id > 300"));
+		assertEquals(null, rs2.extractFilter("Select city from ipl.csv"));
 	}
 	
 	@Test
 	public void conditionsTest() {
 		
-		//assertStatements
-		assertEquals("id > 300", rs1.getConditions().get(0));
-		assertEquals("city like 'Delhi'", rs1.getConditions().get(1));
-		assertEquals(new ArrayList<String>(), rs2.getConditions());
+		//assertStatements to test conditions value
+		assertEquals("id > 300", rs1.extractConditions("Select city from ipl.csv where id > 300").get(0));
+		assertEquals("city like 'Delhi'", rs1.extractConditions("Select city from ipl.csv where id > 300").get(1));
+		assertEquals(new ArrayList<String>(), rs2.extractConditions("Select city from ipl.csv"));
 	}
 
 	@Test
 	public void operatorsTest() {
 		
-		//assertStatements
-		assertEquals("and", rs1.getOperators().get(0));
-		assertEquals(new ArrayList<String>(), rs2.getOperators());
+		//assertStatements to test operators value
+		assertEquals("and", rs1.extractOperators("Select city from ipl.csv where id > 300").get(0));
+		assertEquals(new ArrayList<String>(), rs2.extractOperators("Select city from ipl.csv"));
 	}
 	
 	@Test
 	public void orderByFieldTest() {
 		
-		//assertStatements
-		assertEquals("city", rs1.getOrderByField());
-		assertEquals(null, rs2.getOrderByField());
+		//assertStatements to test order by value
+		assertEquals("city", rs1.extractOrderByField("Select city from ipl.csv where id > 300"));
+		assertEquals(null, rs2.extractOrderByField("Select city from ipl.csv"));
 	}
 	
 	@Test
 	public void groupByFieldTest() {
 		
-		//assertStatements
-		assertEquals("city", rs1.getGroupByField());
-		assertEquals(null, rs2.getGroupByField());		
+		//assertStatements to test group by value
+		assertEquals("city", rs1.extractGroupByField("Select city from ipl.csv where id > 300"));
+		assertEquals(null, rs2.extractGroupByField("Select city from ipl.csv"));		
 	}
 }
