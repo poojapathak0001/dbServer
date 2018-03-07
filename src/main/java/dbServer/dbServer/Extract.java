@@ -1,23 +1,18 @@
 package dbServer.dbServer;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Extract {
-
-	public static void main(String[] args) {
-		
-		 String query = null;
-		 System.out.println("Enter the query:");
-		 query = new Scanner(System.in).nextLine();
-		 //query = "select city,id from ipl.csv where id < 10";
-		 
-		 //calling functions QuerySelector
+	
+	public static void callQuerySelector(String query) {
+		//calling functions QuerySelector
 		 QuerySelector qs = new QuerySelector();
 		 //Extracting tokens
 		 qs.setTokens(qs.extractTokens(query));
 		 System.out.println("\nTokens: ");
-		 for (String i : qs.getTokens()) {
-			 System.out.print(i+", ");
+		 for (String token : qs.getTokens()) {
+			 System.out.print(token+", ");
 		 }
 		 //Extracting filename 
 		 qs.setFileName(qs.extractFileName(query));
@@ -29,11 +24,13 @@ public class Extract {
 		 //Extracting fields
 		 qs.setFields(qs.extractFields(query));
 		 System.out.println("\nFields: ");
-		 for (String i : qs.getFields()) {
-			 System.out.print(i + " ");
+		 for (String field : qs.getFields()) {
+			 System.out.print(field + " ");
 		 }
-		 
-		 //calling functions of Restriction 
+	}
+	
+	public static void callRestrictions(String query) {
+		
 		 Restrictions rs = new Restrictions();
 		 //Extracting filter
 		 rs.setFilter(rs.extractFilter(query));
@@ -41,14 +38,14 @@ public class Extract {
 		 //Extracting conditions
 		 rs.setConditions(rs.extractConditions(query));
 		 System.out.println("\nConditions: ");
-		 for (String i : rs.getConditions()) {
-			 System.out.println(i);
+		 for (String condition : rs.getConditions()) {
+			 System.out.println(condition);
 		 }
 		 //Extracting logical operators
 		 rs.setOperators(rs.extractOperators(query));
 		 System.out.println("\nOperators: ");
-		 for (String i : rs.getOperators()) {
-			 System.out.println(i);
+		 for (String operator : rs.getOperators()) {
+			 System.out.println(operator);
 		 }
 		 //Extracting order by fields
 		 rs.setOrderByField(rs.extractOrderByField(query));
@@ -56,28 +53,63 @@ public class Extract {
 		 //Extracting group by fields
 		 rs.setGroupByField(rs.extractGroupByField(query));
 		 System.out.println("\nGroup by field:\n " + rs.getGroupByField());
-		 
-		 //calling function of AggregateFunctions
+	}
+
+	public static void callAggregateFunctions(String query) {
+		
 		 AggregateFunctions af =new AggregateFunctions();
-		 //Extracting aggregate fnctions
+		 //Extracting aggregate functions
 		 af.setAggregateFunc(af.extractAggregateFunc(query));
 		 System.out.println("\nAggregate Function: ");
-		 for (String i : af.getAggregateFunc()) {
-			 System.out.println(i);
+		 for (String aggregate : af.getAggregateFunc()) {
+			 System.out.println(aggregate);
 		 }
 		 System.out.println();
-		 
-		 //calling method of ReadFile
-		 ReadFile rf = new ReadFile();
-		 rf.readFile(query);
-		 rf.extractDataType();
-		 
-		 //calling methods of QueryParser
+	}
+	
+	public static void callReadFile(String query) {
+		
+		ReadFile rf = new ReadFile();
+		rf.readFile(new QuerySelector().extractFileName(query));
+		rf.extractDataType();
+	}
+	
+	public static void callQueryParser(String query) {
+		
 		 QueryParser qp = new QueryParser();
 		 //calling method to extract data on basis of where clause
 		 qp.extractWhereData(query);
 		 //calling method to extract data
 		 qp.extractSelectData(query);
+		 
+		 //calling callOrderByParser
+		 callOrderByParser(query, qp.getSelectData());
+	}
+	
+	public static void callOrderByParser(String query, ArrayList<String> selectData) {
+		
+		new OrderByParser().extractOrderByData(query, selectData);
+	}
+	public static void main(String[] args) {
+		
+		 String query = null;
+		 System.out.println("Enter the query:");
+		 query = new Scanner(System.in).nextLine();
+		 //query = "select city,id from ipl.csv where id < 10";
+		 //query = "select city from ipl.csv where id < 5 order by city"
+		 
+		 //calling methods of QuerySelector
+		 callQuerySelector(query);
+		 //calling functions of Restriction 
+		 callRestrictions(query);
+		 //calling function of AggregateFunctions
+		 callAggregateFunctions(query);
+		 //calling method of ReadFile
+		 callReadFile(query);
+		 //calling methods of QueryParser
+		 callQueryParser(query);
+		 
+		 
 		 
 	}
 

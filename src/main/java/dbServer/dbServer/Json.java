@@ -1,33 +1,46 @@
 package dbServer.dbServer;
-import org.json.JSONObject;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import org.json.simple.JSONObject;
+import org.json.JSONArray;
 public class Json {
  
  public void createJSON(int[] index, int ic, String[] header, ArrayList<String> data) {   
-  
-	  LinkedHashMap<String, Object> tom = new LinkedHashMap<String, Object>();
 	  
-	  int i = 0;
-	  while (i<ic) {
-		  ArrayList<String> datanew = new ArrayList<String>() ;
-		  int x = 0;
-		  for (String j : data) {
-			  String js[] = j.split(",");
-			  datanew.add(js[index[i]]);
+	  //json object to get result row wise from data
+	  JSONObject json = new JSONObject();
+	  //json array to store resultant objects 
+	  JSONArray jsonArray = new JSONArray();
+	  
+	  //looping through data and initializing jsonArray
+	  for (String entry : data) {
+		  String fieldValue[] = entry.split(",");
+		  for (int i=0; i<ic; i++) {
+			  json.put(header[index[i]], fieldValue[i]);
 		  }
-		  tom.put(header[index[i]], datanew);
-		  i++;
+		  jsonArray.put(json);
 	  }
-	     /*
-	     for (String jc : data) {
-	   String[] j = jc.split(",");
-	   if(i<ic)
-	   tom.put(header[index[i++]], j);//(header[index[i++]], j);
-	   System.out.println();
 	  
-	     }*/
-	     JSONObject tomJsonObj = new JSONObject(tom);
-	         System.out.println(tomJsonObj.toString());
+	  //resultant json object
+	  JSONObject result = new JSONObject();
+	  result.put("result", jsonArray);
+	  
+	  //Writing to result to json file
+	  try {  
+           
+          FileWriter fileWriter = new FileWriter("./dbServerData");  
+          System.out.println("Writing JSON object to file");  
+          System.out.println("-----------------------");    
+
+          fileWriter.write(result.toString());  
+          fileWriter.flush();  
+          fileWriter.close();  
+
+      } catch (IOException e) {  
+          e.printStackTrace();  
+      } 
+	  
+	  System.out.println("JSON file created:\n" + result.toJSONString());
 	 }
 }

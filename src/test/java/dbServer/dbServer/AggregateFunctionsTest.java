@@ -3,13 +3,14 @@ package dbServer.dbServer;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 
-@RunWith(JUnitPlatform.class)
+@RunWith(Suite.class)
+@SuiteClasses({QuerySelectorTest.class,RestrictionsTest.class})
 class AggregateFunctionsTest {
 	
 	AggregateFunctions af1 = null;
@@ -21,7 +22,7 @@ class AggregateFunctionsTest {
     	af1 = new AggregateFunctions();
     	af2 = new AggregateFunctions();
  
-        System.out.println("Before each test method");
+        System.out.println("aggregate Test");
     }
 
 	@Test

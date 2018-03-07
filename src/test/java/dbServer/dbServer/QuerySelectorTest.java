@@ -3,11 +3,9 @@ package dbServer.dbServer;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.platform.runner.*;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 
-@RunWith(JUnitPlatform.class)
+
 class QuerySelectorTest {
 		
 		QuerySelector qs1 = null;
@@ -21,7 +19,7 @@ class QuerySelectorTest {
 	    	qs2 = new QuerySelector();
 	    	
 	    	
-	        System.out.println("Before each test method");
+	        System.out.println("Query Selector test");
 	    }
 	
 	    @Test

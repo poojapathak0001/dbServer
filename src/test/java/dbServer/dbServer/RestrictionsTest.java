@@ -6,10 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.platform.runner.JUnitPlatform;
-import org.junit.runner.RunWith;
 
-@RunWith(JUnitPlatform.class)
 class RestrictionsTest {
 	
 	Restrictions rs1 = null;
@@ -21,7 +18,7 @@ class RestrictionsTest {
     	rs1 = new Restrictions();
     	rs2 = new Restrictions();
     	
-        System.out.println("Before each test method");
+        System.out.println("Restriction test");
     }
     
 

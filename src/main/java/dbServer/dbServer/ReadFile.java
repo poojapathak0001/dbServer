@@ -43,7 +43,7 @@ public class ReadFile {
 			  if(file == null)
 				  throw new FileNotFoundException();
 
-			   String csvFileToRead = file;  
+			   String csvFileToRead = "csvFiles/" + new QuerySelector().extractFileName(file);  
 			   br = new BufferedReader(new FileReader(csvFileToRead)); 
 			   setHeader(br.readLine().split(","));
 			   ArrayList<String> data = new ArrayList<String>();

@@ -28,7 +28,9 @@ public class AggregateFunctions {
 			while (matcher.find()) {
 				agg.add((matcher.group()));
 			}
-			return agg;
+			
+				return agg;
+			
 		}
 		else
 			return null;

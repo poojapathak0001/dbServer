@@ -31,10 +31,6 @@ public class QueryParser {
    //terminating if no where clause
    if(whereConditions == null || whereConditions.size() == 0)
     throw new NullPointerException();
-   
-   for (String i : whereConditions)
-    System.out.println("Conditions:"+i);
-   System.out.println();
  
    String fileName = new QuerySelector().extractFileName(query);
    // terminate if no filename found
@@ -43,14 +39,26 @@ public class QueryParser {
    
    //reading file to get data and header information
    ReadFile rf = new ReadFile();
-   rf.readFile(query);
+   rf.readFile("ipl.csv");
    ArrayList<String> data = rf.getData();
    String[] key = rf.getHeader();
-     
+   ArrayList<String> logicalOps = new Restrictions().extractOperators(query);
    //getting field to compare
    int index = -1;
+   int lo = 0;
    String f = null, op = null, val = null;
    for (String i : whereConditions) {
+	   if(index > -1 && logicalOps.size() != 0) {
+		   if(lo < logicalOps.size()) {
+			   if(logicalOps.get(lo).equals("or")) {
+				   
+			   }
+			   else if(logicalOps.get(lo).equals("and")) {
+				   data = whereData;
+			   }
+		   }
+		   lo++;
+	   }
     //pattern to match field, operator and value of the conditions
     Pattern p = Pattern.compile("(\\w+)([ ]?)(<>|>=|<=|!=|>|<|=|like|in|not like|not in|between[ ]?\\d[ ]?and\\d)([ ]?['(]?)(\\w+)([')]?)");   
     Matcher m = p.matcher(i);
@@ -72,39 +80,68 @@ public class QueryParser {
      } 
    
    //performing operations according to the operator
-   switch(op.charAt(0)) {
+   switch(op) {
    //smaller than operator logic
-   case '>' : double dVal = Double.parseDouble(val);
-      for(String ic : data) {
-       String i1[] = ic.split(",");
-       if((Double.parseDouble(i1[index]))>dVal)
-       {
-        whereData.add(ic);
-       }
-      }
-      break;
+   case ">" : double dVal = Double.parseDouble(val);
+		      for(String ic : data) {
+		       String i1[] = ic.split(",");
+		       if((Double.parseDouble(i1[index]))>dVal)
+		       {
+		        whereData.add(ic);
+		       }
+		      }
+		      break;
       
    //greater than operator logic
-   case '<' : double dVal1 = Double.parseDouble(val);
-      for(String ic : data) {
-       String i1[] = ic.split(",");
-       if((Double.parseDouble(i1[index]))<dVal1)
-       {
-        whereData.add(ic);
-       }
-      }
-      break;
+   case "<" : double dVal1 = Double.parseDouble(val);
+		      for(String ic : data) {
+		       String i1[] = ic.split(",");
+		       if((Double.parseDouble(i1[index]))<dVal1)
+		       {
+		        whereData.add(ic);
+		       }
+		      }
+		      break;
+   case "<>" :
+   case "not like" :
+			   for(String ic : data) {
+			    String i1[] = ic.split(",");
+			    if(!(i1[index]).equalsIgnoreCase(val))
+			    {
+			     whereData.add(ic);
+			    }
+			   }
+			   break;
+   case ">=" : double dVal2 = Double.parseDouble(val);
+			   for(String ic : data) {
+			    String i1[] = ic.split(",");
+			    if((Double.parseDouble(i1[index]))>=dVal2)
+			    {
+			     whereData.add(ic);
+			    }
+			   }
+			   break;
+   case "<=" : double dVal3 = Double.parseDouble(val);
+			   for(String ic : data) {
+			    String i1[] = ic.split(",");
+			    if((Double.parseDouble(i1[index]))<=dVal3)
+			    {
+			     whereData.add(ic);
+			    }
+			   }
+			   break;
    
    //equals operator logic
-   case '=' : 
-      for(String ic : data) {
-       String i1[] = ic.split(",");
-       if(val.equalsIgnoreCase(i1[index]))
-       {
-        whereData.add(ic);
-       }
-      }
-      break;
+   case "=" :
+   case "like" :
+		      for(String ic : data) {
+		       String i1[] = ic.split(",");
+		       if(val.equalsIgnoreCase(i1[index]))
+		       {
+		        whereData.add(ic);
+		       }
+		      }
+		      break;
    
    //default values
    default : System.out.println("Invalid option");
@@ -149,7 +186,6 @@ public class QueryParser {
    if(fields[0].equals("*")) {
     fields = key;
     for (String i : fields) {
-     System.out.print(i + " ");
      for (int j=0; j<key.length; j++) {
        {index[ic++] = j;}
       }   
@@ -157,7 +193,6 @@ public class QueryParser {
    }
    else if(fields != null){
    for (String i : fields) {
-    System.out.print(i + " ");
     for (int j=0; j<key.length; j++) {
      if(i.equals(key[j]))
       {index[ic++] = j;}
@@ -169,15 +204,12 @@ public class QueryParser {
     throw new NullPointerException();
    }
    
-   System.out.println("");
    for (String jc : data) {
     String[] j = jc.split(",");
     for (int i=0; i<ic; i++) {
      
      selectData.add(j[index[i]]);
-     System.out.print(j[index[i]]+" ");
     } 
-    System.out.println();
    
   }
   //calling method to create JSON object
